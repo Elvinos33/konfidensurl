@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function Header() {
   return (
     <header className="w-full p-5 flex justify-center">
-      <div className="flex justify-between w-1/2">
+      <nav className="flex justify-between w-1/2">
         <Link
           href={"https://www.konfidens.no"}
           className="flex items-center transition duration-[400ms] hover:scale-105"
@@ -16,19 +16,13 @@ export default function Header() {
         </Link>
         <div className="flex gap-5 items-center">
           <Link
-            className="transition duration-[400ms] hover:text-konfidens-green"
+            className="px-5 py-3 rounded-md text-konfidens-white font-semibold bg-konfidens-darkGreen transition duration-[400ms] hover:brightness-90 hover:scale-105"
             href={""}
           >
-            URLs
-          </Link>
-          <Link
-            className="p-4 rounded-md text-white font-semibold bg-konfidens-darkGreen transition duration-[400ms] hover:brightness-90 hover:scale-105"
-            href={""}
-          >
-            Create URL
+            All URLs
           </Link>
         </div>
-      </div>
+      </nav>
     </header>
   );
 }
