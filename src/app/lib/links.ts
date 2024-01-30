@@ -37,6 +37,10 @@ export async function getAllLinks() {
 }
 
 export async function getLink(path: string) {
-  // TODO: GET LINK FROM PATH
-  console.log(path)
+  const link = await prisma.links.findUnique({
+    where: {
+      path: path,
+    },
+  })
+  return link
 }

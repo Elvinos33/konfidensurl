@@ -7,7 +7,7 @@ export default function Front({links}: {links: Link[]}) {
   const [q, setQ] = React.useState('');
 
   const linkData = {
-    url: 'eliasuran.dev',
+    url: 'https://www.eliasuran.dev',
     path: q,
     expires: new Date(),
   };
@@ -25,7 +25,13 @@ export default function Front({links}: {links: Link[]}) {
       </button>
 
       <h1 className='text-3xl'>Alle linker laget:</h1>
-      <div className='flex flex-col gap-2'>{links.map((link) => <div key={link.path} className="flex gap-2 bg-red-400 rounded-lg p-1">Path: {link.path} - URL: {link.url} - Expires: {link.url} - Clicks: {link.clicks}</div>)}</div>
+      <div className='flex flex-col gap-2'>
+        {links.map((link) => 
+          <div key={link.path} className="flex gap-2 bg-red-400 rounded-lg p-1">
+            Path: {link.path} - URL: {link.url} - Expires: {link.url} - Clicks: {link.clicks}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
