@@ -1,0 +1,13 @@
+name: Generate Latest tag
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  autotag-latest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Auto tag with Latest
+        uses: eliasuran/actions/latest@master
