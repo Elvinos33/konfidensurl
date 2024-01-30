@@ -42,3 +42,7 @@ export async function getAllLinks() {
   const data = await res.json();
   return data;
 }
+
+export async function getLink(path: string) {
+  // TODO: GET LINK FROM PATH
+}
