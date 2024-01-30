@@ -29,3 +29,7 @@ export async function newLink({ url, path, expires }: Link) {
 export async function getAllLinks() {
   // TODO: get all links
 }
+
+export async function getLink(path: string) {
+  // TODO: GET LINK FROM PATH
+}
