@@ -1,7 +1,10 @@
+import prisma from "./prisma";
+
 export interface Link {
   url: string;
   path: string;
   expires: Date;
+  clicks?: number;
 }
 
 export async function newLink({ url, path, expires }: Link) {
@@ -21,28 +24,19 @@ export async function newLink({ url, path, expires }: Link) {
     console.log('Error: ', await res.json());
   }
 
+  console.log("Successfully added new link with path: ", path)
   const data = await res.json();
   return data;
 }
 
 // henter alle linker som eksisterer
 export async function getAllLinks() {
-  // får error uten localhost:3000 vet ikke hvorfor
-  const res = await fetch('http://localhost:3000/api/getAllLinks', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-
-  if (!res.ok) {
-    console.log('Error: ', await res.json());
-  }
-
-  const data = await res.json();
-  return data;
+  const links = await prisma.links.findMany();
+  console.log("Links: ", links)
+  return links;
 }
 
 export async function getLink(path: string) {
   // TODO: GET LINK FROM PATH
+  console.log(path)
 }
