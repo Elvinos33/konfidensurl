@@ -25,7 +25,20 @@ export async function newLink({ url, path, expires }: Link) {
   return data;
 }
 
-// get links
+// henter alle linker som eksisterer
 export async function getAllLinks() {
-  // TODO: get all links
+  // får error uten localhost:3000 vet ikke hvorfor
+  const res = await fetch('http://localhost:3000/api/getAllLinks', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!res.ok) {
+    console.log('Error: ', await res.json());
+  }
+
+  const data = await res.json();
+  return data;
 }
