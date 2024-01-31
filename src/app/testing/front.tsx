@@ -18,7 +18,8 @@ export default function Front({ links }: { links: Link[] }) {
         type='text'
         value={q}
         onChange={(e) => setQ(e.target.value)}
-        className='text-red-900'
+        className='text-red-900 border-black border-2 rounded-md'
+        placeholder='Path...'
       />
       <button onClick={() => newLink(linkData)} className='bg-red-400 p-2'>
         Legg til en ny url
