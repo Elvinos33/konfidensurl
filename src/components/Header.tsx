@@ -2,8 +2,8 @@ import Link from "next/link";
 
 export default function Header() {
   return (
-    <header className="w-full p-5 flex justify-center">
-      <nav className="flex justify-between w-1/2">
+    <header className="absolute w-full p-5 flex justify-center">
+      <nav className="flex justify-between w-full lg:w-1/2">
         <Link
           href={"https://www.konfidens.no"}
           className="flex items-center transition duration-[400ms] hover:scale-105"
