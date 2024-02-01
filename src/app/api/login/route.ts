@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-export async function POST(request: NextRequest, response: NextResponse) {
+export async function POST(request: NextRequest) {
   try {
     const { username, password } = await request.json();
 
@@ -40,11 +40,13 @@ export async function POST(request: NextRequest, response: NextResponse) {
           id: true,
         },
       });
+
       const token = jwt.sign(
         { userId: user.id, username: user.username },
         process.env.JWT_SECRET,
         { expiresIn: '1h' },
       );
+
       const response = NextResponse.json(
         { user: user, token: token },
         { status: 200 },
