@@ -6,6 +6,5 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   await incrementClicks(params.slug);
 
-  return <Redirect url={link?.url} />
+  return <Redirect url={link?.url} />;
 }
-

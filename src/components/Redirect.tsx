@@ -1,10 +1,18 @@
-"use client"
+'use client';
 
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
-export default function Redirect({ url}: { url: string }) {
+export default function Redirect({ url }: { url: string }) {
   useEffect(() => {
-    window.location.href = url
-  }, [])
-  return <> {url ? <h1 className='text-4xl'>Redirecting to {url}</h1> : <h1 className='text-4xl'>404</h1>}</>;
-  }
+    if (url) window.location.href = url;
+  }, []);
+  return (
+    <>
+      {url ? (
+        <h1 className='text-4xl'>Redirecting to {url}</h1>
+      ) : (
+        <h1 className='text-4xl'>404</h1>
+      )}
+    </>
+  );
+}
