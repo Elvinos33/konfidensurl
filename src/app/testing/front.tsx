@@ -1,12 +1,10 @@
 'use client';
 
 import React from 'react';
-import { Link, newLink, deleteLink, getAllLinks } from '@/lib/links';
+import { Link, deleteLink, getAllLinks } from '@/lib/links';
 import { login, register, User } from '@/lib/login';
 
 export default function Front({ users }: { users: any }) {
-  const [q, setQ] = React.useState('');
-
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
 
@@ -27,27 +25,16 @@ export default function Front({ users }: { users: any }) {
     console.log(user);
   }
 
-  // objektet som blir sendt når man lager ny link
-  const linkData: Link = {
-    url: 'https://www.eliasuran.dev',
-    path: q,
-    expires: Date.now(),
-  };
+  async function registerUser(e, username: string, password: string) {
+    e.preventDefault();
+    const user: User = await register(username, password);
+    console.log(user);
+  }
+
   return (
     <div className='flex flex-col gap-4'>
       <h1>elias tester</h1>
       {/* input field for å gi navn til nye paths */}
-      <input
-        type='text'
-        value={q}
-        onChange={(e) => setQ(e.target.value)}
-        className='text-red-900 border-black border-2 rounded-md'
-        placeholder='Path...'
-      />
-      <button onClick={() => newLink(linkData)} className='bg-red-400 p-2'>
-        Legg til en ny url
-      </button>
-
       <h1 className='text-3xl'>Alle linker laget:</h1>
       <div className='flex flex-col gap-2'>
         {/* mapper over alle linker */}
@@ -88,7 +75,7 @@ export default function Front({ users }: { users: any }) {
       </form>
 
       <h1 className='text-2xl'>Lag bruker</h1>
-      <form onSubmit={() => register(username, password)}>
+      <form onSubmit={(e) => registerUser(e, username, password)}>
         <input
           type='text'
           className='border-black border-2'
