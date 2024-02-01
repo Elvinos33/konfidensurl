@@ -7,7 +7,7 @@ import { newLink } from "@/lib/links";
 type FormData = {
   url: string;
   path: string;
-  expires: Date | null;
+  expires: number | null;
 };
 
 const INITIAL_FORM_DATA: FormData = {
