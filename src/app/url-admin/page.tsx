@@ -13,7 +13,7 @@ type FormData = {
 const INITIAL_FORM_DATA: FormData = {
   url: "",
   path: "",
-  time: 0,
+  time: NaN,
 };
 
 export default function UrlAdmin() {
@@ -34,10 +34,10 @@ export default function UrlAdmin() {
     console.log(formData);
   }, [formData]);
 
-  function onSubmit(e: FormEvent) {
+  async function onSubmit(e: FormEvent) {
     e.preventDefault();
     if (!isLastStep) return nextStep();
-    alert("Successful Link Creation!");
+    const response = await fetch("api/");
   }
 
   return (
