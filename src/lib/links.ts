@@ -5,7 +5,7 @@ import prisma from './prisma';
 export interface Link {
   url: string;
   path: string;
-  expires: Date | null;
+  expires: number | null;
   clicks?: number;
 }
 
@@ -47,7 +47,7 @@ export async function updateLink({ url, path, expires }: Link) {
 
 // sletter linken med path-en den får som param
 export async function deleteLink(path: string) {
-  const res = await fetch('api/links', {
+  const res = await fetch('/api/links', {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -67,12 +67,20 @@ export async function getAllLinks() {
 }
 
 // henter en link basert på path som den får som parameter
+// sjekker også om linken har utløpt, og om den har det slette den linken
 export async function getLink(path: string) {
   const link: Link = await prisma.links.findUnique({
     where: {
       path: path,
     },
   });
+
+  if (link && link.expires && Date.now() > link.expires) {
+    await prisma.links.delete({
+      where: { path: path },
+    });
+    return null;
+  }
 
   return link;
 }
