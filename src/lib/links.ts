@@ -119,3 +119,27 @@ export async function incrementClicks(path: string) {
     },
   });
 }
+
+// logger in bruker
+export async function login(username: string, password: string) {
+  try {
+    const res = await fetch('api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password,
+      }),
+    });
+
+    if (!res.ok) {
+      console.log('Error: ', await res.json());
+    }
+
+    console.log('Successfully logged in user: ', username);
+  } catch (error) {
+    console.log('Error: ', error);
+  }
+}
