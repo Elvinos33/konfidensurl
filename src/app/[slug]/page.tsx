@@ -1,13 +1,11 @@
-import { permanentRedirect } from 'next/navigation';
-import { getLink } from '../lib/links';
+import Redirect from '@/components/Redirect';
+import { Link, getLink, incrementClicks } from '@/lib/links';
 
 export default async function Page({ params }: { params: { slug: string } }) {
-  const link = await getLink(params.slug);
-  if (!link)
-    return (
-      <h1 className='text-4xl'>
-        404: did not find url for {params.slug} in database
-      </h1>
-    );
-  permanentRedirect(link.url);
+  const link: Link = await getLink(params.slug);
+
+  await incrementClicks(params.slug);
+
+  return <Redirect url={link?.url} />
 }
+
