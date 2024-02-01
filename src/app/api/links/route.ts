@@ -25,11 +25,12 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const { url, path, expires } = await request.json();
+    const expireDate = new Date(expires);
     const link = await prisma.links.create({
       data: {
         url: url,
         path: path,
-        expires: expires,
+        expires: expireDate,
       },
     });
 

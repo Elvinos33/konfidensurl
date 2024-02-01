@@ -12,26 +12,18 @@ export interface User {
 // lager ny bruker
 // hasher passord
 export async function register(username: string, password: string) {
-  try {
-    const res = await fetch('api/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: username,
-        password: password,
-      }),
-    });
+  const res = await fetch('api/register', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      username: username,
+      password: password,
+    }),
+  });
 
-    if (!res.ok) {
-      console.log('Error: ', await res.json());
-    }
-
-    console.log('Successfully registered user: ', username);
-  } catch (error) {
-    console.log('Error: ', error);
-  }
+  return await res.json();
 }
 
 // logger in bruker
@@ -48,12 +40,7 @@ export async function login(username: string, password: string) {
       }),
     });
 
-    if (res.status === 200) {
-      const data = await res.json();
-      return data.user;
-    }
-
-    return { message: 'Incorrect username or password', status: res.status };
+    return await res.json();
   } catch (error) {
     console.log('Error: ', error);
   }
