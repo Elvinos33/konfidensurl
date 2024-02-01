@@ -39,7 +39,6 @@ export async function POST(request: NextRequest) {
           id: true,
         },
       });
-      console.log('User: ', user);
       return NextResponse.json({ user: user }, { status: 200 });
     } else {
       return NextResponse.json(
