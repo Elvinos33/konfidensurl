@@ -21,7 +21,7 @@ export function ExternalURLForm({ url, setFormData }: FormProps) {
           required
           value={url}
           onChange={(e) => setFormData({ url: e.target.value })}
-          className="w-full h-full outline outline-1 outline-neutral-400 transition-all ease-linear duration-[100ms] hover:shadow-sm hover:outline-neutral-600 focus:outline-black focus:outline-2 rounded-md px-2"
+          className="w-full h-full outline outline-1 outline-neutral-300 transition-all ease-linear duration-[100ms] hover:shadow-sm hover:outline-neutral-600 focus:outline-black focus:outline-2 rounded-md px-2"
           placeholder="Your URL..."
           type="url"
         />
@@ -41,7 +41,7 @@ export function InternalURLForm({ path, setFormData }: FormProps) {
           required
           value={path}
           onChange={(e) => setFormData({ path: e.target.value })}
-          className="w-full h-full outline outline-1 outline-neutral-400 transition-all ease-linear duration-[100ms] hover:shadow-sm hover:outline-neutral-600 focus:outline-black focus:outline-2 rounded-md px-2"
+          className="w-full h-full outline outline-1 outline-neutral-300 transition-all ease-linear duration-[100ms] hover:shadow-sm hover:outline-neutral-600 focus:outline-black focus:outline-2 rounded-md px-2"
           placeholder="Endpoint..."
           type="text"
         />
@@ -50,7 +50,7 @@ export function InternalURLForm({ path, setFormData }: FormProps) {
   );
 }
 
-export function TimeForm({ expires, setFormData }: FormProps) {
+export function TimeForm({ setFormData }: FormProps) {
   const [selectedTime, setSelectedTime] = useState("Forever");
 
   function convertTime(metric: string, value: number) {
@@ -75,7 +75,7 @@ export function TimeForm({ expires, setFormData }: FormProps) {
         <select
           name="Time Metric"
           id="Time Select"
-          className="bg-white text-neutral-600 h-full outline outline-1 outline-neutral-400 transition-all ease-linear duration-[100ms] hover:shadow-sm hover:outline-neutral-600 rounded-l-md px-2"
+          className="bg-white text-neutral-600 h-full outline outline-1 outline-neutral-300 transition-all ease-linear duration-[100ms] hover:shadow-sm hover:outline-neutral-600 rounded-l-md px-2"
           value={selectedTime}
           onChange={(e) => setSelectedTime(e.target.value)}
         >

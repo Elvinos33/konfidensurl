@@ -1,8 +1,7 @@
 "use client";
-import Header from "@/components/Header";
 import { ExternalURLForm, InternalURLForm, TimeForm } from "@/components/Forms";
 import { useMultistep } from "@/hooks/useMultistep";
-import { FormEvent, useState, useEffect } from "react";
+import { FormEvent, useState } from "react";
 import { newLink } from "@/lib/links";
 
 type FormData = {
@@ -31,10 +30,6 @@ export default function CreateLink() {
     <TimeForm {...formData} setFormData={updateFormData} />,
   ]);
 
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
-
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
     if (!isLastStep) return nextStep();
@@ -43,13 +38,13 @@ export default function CreateLink() {
   }
 
   return (
-    <main className="absolute inset-0 bg-konfidens-white overflow-hidden">
-      <Header />
+    <main className="absolute inset-0 overflow-hidden">
       <form
+        name="Create URL"
         onSubmit={onSubmit}
         className="w-full h-full flex flex-col gap-10 items-center justify-center"
       >
-        <h1 className="text-konfidens-green font-serif text-3xl md:text-5xl text-center">
+        <h1 className="text-konfidens-green font-serif text-4xl md:text-5xl text-center animate-fade-down">
           Shorten your URL.
         </h1>
         {step}
