@@ -1,7 +1,8 @@
 import Front from './front';
-import { getAllLinks } from '@/lib/links';
+import { getAllLinks, getAllUsers } from '@/lib/links';
 
 export default async function Page() {
   const links = await getAllLinks();
-  return <Front links={links} />;
+  const users = await getAllUsers();
+  return <Front links={links} users={users} />;
 }

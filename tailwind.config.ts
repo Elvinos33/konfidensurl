@@ -12,10 +12,11 @@ const config: Config = {
         konfidens: {
           green: "#168965",
           darkGreen: "#064f43",
+          white: "#f9fafb",
         },
       },
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animated")],
 };
 export default config;
