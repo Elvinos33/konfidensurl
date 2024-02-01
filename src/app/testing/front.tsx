@@ -1,13 +1,19 @@
 'use client';
 
 import React from 'react';
-import { Link, newLink, deleteLink, login } from '@/lib/links';
+import { Link, newLink, deleteLink, login, register } from '@/lib/links';
 
-export default function Front({ links }: { links: Link[] }) {
+export default function Front({ links, users }: { links: Link[]; users: any }) {
   const [q, setQ] = React.useState('');
 
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
+
+  async function loginUser(e, username: string, password: string) {
+    e.preventDefault();
+    const user = await login(username, password);
+    console.log(user);
+  }
 
   // objektet som blir sendt når man lager ny link
   const linkData = {
@@ -54,20 +60,51 @@ export default function Front({ links }: { links: Link[] }) {
           </div>
         ))}
       </div>
-      <h1 className='text-2xl'>Lag bruker</h1>
-      <form onSubmit={() => login(username, password)}>
+      <h1 className='text-2xl'>Login</h1>
+      <form onSubmit={(e) => loginUser(e, username, password)}>
         <input
           type='text'
           className='border-black border-2'
           onChange={(e) => setUsername(e.target.value)}
+          value={username}
         />
+        <input
+          type='password'
+          className='border-black border-2'
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+        />
+        <button type='submit'>Login</button>
+      </form>
+
+      <h1 className='text-2xl'>Lag bruker</h1>
+      <form onSubmit={() => register(username, password)}>
         <input
           type='text'
           className='border-black border-2'
+          onChange={(e) => setUsername(e.target.value)}
+          value={username}
+        />
+        <input
+          type='password'
+          className='border-black border-2'
           onChange={(e) => setPassword(e.target.value)}
+          value={password}
         />
         <button type='submit'>Lag bruker</button>
       </form>
+
+      <div className='flex'>
+        {users.map((user: any) => (
+          <div
+            key={user.id}
+            className='p-2 flex flex-col border-2 border-black rounded-md'
+          >
+            <span>{user.username}</span>
+            <span>{user.password}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
