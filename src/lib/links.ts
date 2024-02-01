@@ -87,12 +87,15 @@ export async function incrementClicks(path: string) {
       clicks: true,
     },
   });
+  if (!data) {
+    return null;
+  }
   await prisma.links.update({
     where: {
       path: path,
     },
     data: {
-      clicks: data.clicks + 1,
+      clicks: data?.clicks + 1,
     },
   });
 }
