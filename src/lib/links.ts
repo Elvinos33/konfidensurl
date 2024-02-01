@@ -1,5 +1,5 @@
 ////////////////////////////// IMPORTS //////////////////////////////
-import prisma from './prisma';
+import prisma from "./prisma";
 
 ////////////////////////////// TYPES //////////////////////////////
 export interface Link {
@@ -15,7 +15,7 @@ export async function newLink({ url, path, expires }: Link) {
   const res = await fetch('/api/links', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       url: url,
@@ -33,7 +33,7 @@ export async function updateLink({ url, path, expires }: Link) {
   const res = await fetch('/api/links', {
     method: 'PUT',
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       url: url,
@@ -50,7 +50,7 @@ export async function deleteLink(path: string) {
   const res = await fetch('/api/links', {
     method: 'DELETE',
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       path: path,
