@@ -1,14 +1,25 @@
 'use client';
 
 import React from 'react';
-import { Link, newLink, deleteLink } from '@/lib/links';
+import { Link, newLink, deleteLink, getAllLinks } from '@/lib/links';
 import { login, register, User } from '@/lib/login';
 
-export default function Front({ links, users }: { links: Link[]; users: any }) {
+export default function Front({ users }: { users: any }) {
   const [q, setQ] = React.useState('');
 
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
+
+  async function getLinks() {
+    const data = await getAllLinks();
+    console.log(data);
+    return data.links;
+  }
+  const [links, setLinks] = React.useState([] as Link[]);
+  React.useEffect(() => {
+    getLinks().then((data) => setLinks(data));
+    console.log(links);
+  }, []);
 
   async function loginUser(e, username: string, password: string) {
     e.preventDefault();
@@ -17,10 +28,10 @@ export default function Front({ links, users }: { links: Link[]; users: any }) {
   }
 
   // objektet som blir sendt når man lager ny link
-  const linkData = {
+  const linkData: Link = {
     url: 'https://www.eliasuran.dev',
     path: q,
-    expires: new Date(),
+    expires: Date.now(),
   };
   return (
     <div className='flex flex-col gap-4'>
@@ -48,9 +59,7 @@ export default function Front({ links, users }: { links: Link[]; users: any }) {
             <a className='text-blue-700 underline' href={`/${link.path}`}>
               Path: {link.path}
             </a>{' '}
-            - URL: {link.url} - Expires:{' '}
-            {new Date(link.expires).toLocaleDateString('no-NO')} - Clicks:{' '}
-            {link.clicks}
+            - URL: {link.url} - Expires: {link.expires} - Clicks: {link.clicks}
             {/* slett link */}
             <button
               onClick={() => deleteLink(link.path)}

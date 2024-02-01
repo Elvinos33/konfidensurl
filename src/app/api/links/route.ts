@@ -11,6 +11,16 @@ function handleError(error: any) {
   return NextResponse.json({ message: 'Error' }, { status: 500 });
 }
 
+// get all links
+export async function GET() {
+  try {
+    const links = await prisma.links.findMany();
+    return NextResponse.json({ links: links }, { status: 200 });
+  } catch (error) {
+    return handleError(error);
+  }
+}
+
 // new link
 export async function POST(request: NextRequest) {
   try {

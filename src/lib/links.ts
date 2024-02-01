@@ -62,8 +62,13 @@ export async function deleteLink(path: string) {
 
 // henter alle linker som eksisterer
 export async function getAllLinks() {
-  const links = await prisma.links.findMany();
-  return links;
+  const res = await fetch('/api/links', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  return await res.json();
 }
 
 // henter en link basert på path som den får som parameter
