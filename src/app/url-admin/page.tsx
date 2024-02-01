@@ -3,17 +3,18 @@ import Header from "@/components/Header";
 import { ExternalURLForm, InternalURLForm, TimeForm } from "@/components/Forms";
 import { useMultistep } from "@/hooks/useMultistep";
 import { FormEvent, useState, useEffect } from "react";
+import { newLink } from "@/lib/links";
 
 type FormData = {
   url: string;
   path: string;
-  time: number;
+  expires: Date | null;
 };
 
 const INITIAL_FORM_DATA: FormData = {
   url: "",
   path: "",
-  time: NaN,
+  expires: null,
 };
 
 export default function UrlAdmin() {
@@ -37,7 +38,8 @@ export default function UrlAdmin() {
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
     if (!isLastStep) return nextStep();
-    const response = await fetch("api/");
+    const response = await newLink({ ...formData });
+    console.log(response);
   }
 
   return (
@@ -54,6 +56,7 @@ export default function UrlAdmin() {
         <div className="w-4/5 md:w-3/5 lg:w-2/5 flex justify-between gap-5 animate-fade-up">
           {!isFirstStep && (
             <button
+              type="button"
               onClick={backStep}
               className="bg-konfidens-darkGreen text-konfidens-white flex-1 py-2 rounded-md transition duration-[400ms] hover:brightness-75"
             >

@@ -3,7 +3,7 @@ import { useState } from "react";
 type UrlData = {
   url: string;
   path: string;
-  time: number;
+  expires: Date | null;
 };
 
 type FormProps = UrlData & {
@@ -50,8 +50,21 @@ export function InternalURLForm({ path, setFormData }: FormProps) {
   );
 }
 
-export function TimeForm({ time, setFormData }: FormProps) {
+export function TimeForm({ expires, setFormData }: FormProps) {
   const [selectedTime, setSelectedTime] = useState("Forever");
+
+  function convertTime(metric: string, value: number) {
+    switch (metric) {
+      case "Minutes":
+        return value * 60000;
+      case "Hours":
+        return value * 3600000;
+      case "Days":
+        return value * 86400000;
+      case "Years":
+        return value * 31536000000;
+    }
+  }
 
   return (
     <div className="w-4/5 md:w-3/5 lg:w-2/5 space-y-5 animate-fade-down">
@@ -67,14 +80,20 @@ export function TimeForm({ time, setFormData }: FormProps) {
           onChange={(e) => setSelectedTime(e.target.value)}
         >
           <option value="Minutes">Minutes</option>
+          <option value="Hours">Days</option>
           <option value="Days">Days</option>
           <option value="Years">Years</option>
           <option value="Forever">Forever</option>
         </select>
         <input
           required
-          value={time}
-          onChange={(e) => setFormData({ time: Number(e.target.value) })}
+          onChange={(e) =>
+            setFormData({
+              expires: new Date(
+                Date.now() + convertTime(selectedTime, Number(e.target.value)),
+              ),
+            })
+          }
           className="disabled:brightness-90 disabled:cursor-not-allowed z-10 w-full h-full outline outline-1 outline-neutral-400 transition-all ease-linear duration-[100ms] hover:shadow-sm hover:outline-neutral-600 focus:outline-black focus:outline-2 rounded-r-md px-2"
           disabled={selectedTime === "Forever"}
           placeholder="Time..."
