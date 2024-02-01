@@ -12,7 +12,7 @@ export interface Link {
 ////////////////////////////// FUNCTIONS //////////////////////////////
 // lager en ny link med url, path og expires som parametere
 export async function newLink({ url, path, expires }: Link) {
-  const res = await fetch('api/links', {
+  const res = await fetch('/api/links', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -30,7 +30,7 @@ export async function newLink({ url, path, expires }: Link) {
 // får url, path og expires som paramater og oppdaterer linken til path-en som er gitt.
 // alle parameterene må være med, ellers blir de satt til default valuene sine
 export async function updateLink({ url, path, expires }: Link) {
-  const res = await fetch('api/links', {
+  const res = await fetch('/api/links', {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -68,11 +68,12 @@ export async function getAllLinks() {
 
 // henter en link basert på path som den får som parameter
 export async function getLink(path: string) {
-  const link = await prisma.links.findUnique({
+  const link: Link = await prisma.links.findUnique({
     where: {
       path: path,
     },
   });
+
   return link;
 }
 
