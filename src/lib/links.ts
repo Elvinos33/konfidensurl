@@ -159,12 +159,12 @@ export async function login(username: string, password: string) {
       }),
     });
 
-    if (!res.ok) {
-      console.log('Error: ', await res.json());
+    if (res.status === 200) {
+      const data = await res.json();
+      return data.user;
     }
 
-    const data = await res.json();
-    return data;
+    return { message: 'Incorrect username or password', status: res.status };
   } catch (error) {
     console.log('Error: ', error);
   }

@@ -69,7 +69,7 @@ export default function Front({ links, users }: { links: Link[]; users: any }) {
           value={username}
         />
         <input
-          type='text'
+          type='password'
           className='border-black border-2'
           onChange={(e) => setPassword(e.target.value)}
           value={password}
@@ -86,7 +86,7 @@ export default function Front({ links, users }: { links: Link[]; users: any }) {
           value={username}
         />
         <input
-          type='text'
+          type='password'
           className='border-black border-2'
           onChange={(e) => setPassword(e.target.value)}
           value={password}
