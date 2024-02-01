@@ -1,7 +1,8 @@
 'use client';
 
 import React from 'react';
-import { Link, newLink, deleteLink, login, register } from '@/lib/links';
+import { Link, newLink, deleteLink } from '@/lib/links';
+import { login, register, User } from '@/lib/login';
 
 export default function Front({ links, users }: { links: Link[]; users: any }) {
   const [q, setQ] = React.useState('');
@@ -11,7 +12,7 @@ export default function Front({ links, users }: { links: Link[]; users: any }) {
 
   async function loginUser(e, username: string, password: string) {
     e.preventDefault();
-    const user = await login(username, password);
+    const user: User = await login(username, password);
     console.log(user);
   }
 
