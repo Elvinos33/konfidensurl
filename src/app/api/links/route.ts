@@ -8,7 +8,7 @@ function handleError(error: any) {
       { status: 400 },
     );
   }
-  return NextResponse.json({ message: 'Error' }, { status: 500 });
+  return NextResponse.json({ message: error.message }, { status: 500 });
 }
 
 // get all links

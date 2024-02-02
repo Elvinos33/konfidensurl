@@ -19,13 +19,22 @@ export default function Front({ users }: { users: any }) {
     console.log(links);
   }, []);
 
-  async function loginUser(e, username: string, password: string) {
+  // login returnerer to ting: user (object med type User) og token (string)
+  async function loginUser(
+    e: React.ChangeEvent<HTMLInputElement>,
+    username: string,
+    password: string,
+  ) {
     e.preventDefault();
-    const user: User = await login(username, password);
+    const user = await login(username, password);
     console.log(user);
   }
 
-  async function registerUser(e, username: string, password: string) {
+  async function registerUser(
+    e: React.ChangeEvent<HTMLInputElement>,
+    username: string,
+    password: string,
+  ) {
     e.preventDefault();
     const user: User = await register(username, password);
     console.log(user);
