@@ -3,15 +3,25 @@ import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcrypt';
 
 export async function POST(request: NextRequest) {
-  const { username, password } = await request.json();
-  const hashedPassword = await bcrypt.hash(password, 10);
+  try {
+    const { username, password } = await request.json();
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-  const user = await prisma.users.create({
-    data: {
-      username: username,
-      password: hashedPassword,
-    },
-  });
+    const user = await prisma.users.create({
+      data: {
+        username: username,
+        password: hashedPassword,
+      },
+    });
 
-  return NextResponse.json({ user: user, status: 'ok' });
+    return NextResponse.json({ user: user }, { status: 200 });
+  } catch (error) {
+    if (error.code === 'P2002') {
+      return NextResponse.json(
+        { message: 'User with that username already exists' },
+        { status: 400 },
+      );
+    }
+    return NextResponse.json({ message: error }, { status: 500 });
+  }
 }
