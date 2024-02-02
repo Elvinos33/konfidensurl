@@ -3,7 +3,7 @@ import { useState } from "react";
 type UrlData = {
   url: string;
   path: string;
-  expires: Date | null;
+  expires: number | null;
 };
 
 type FormProps = UrlData & {
@@ -89,9 +89,7 @@ export function TimeForm({ setFormData }: FormProps) {
           required
           onChange={(e) =>
             setFormData({
-              expires: new Date(
-                Date.now() + convertTime(selectedTime, Number(e.target.value)),
-              ),
+              expires: convertTime(selectedTime, Number(e.target.value)),
             })
           }
           className="disabled:brightness-90 disabled:cursor-not-allowed z-10 w-full h-full outline outline-1 outline-neutral-400 transition-all ease-linear duration-[100ms] hover:shadow-sm hover:outline-neutral-600 focus:outline-black focus:outline-2 rounded-r-md px-2"
