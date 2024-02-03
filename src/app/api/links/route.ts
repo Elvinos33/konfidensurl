@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { Link, deletion } from '@/lib/links';
 
 function handleError(error: any) {
   if (error.code === 'P2002') {
@@ -15,6 +16,10 @@ function handleError(error: any) {
 export async function GET() {
   try {
     const links = await prisma.links.findMany();
+    await links.map(
+      (link: Link) =>
+        link.expires && Date.now() > link.expires && deletion(link.path),
+    );
     return NextResponse.json({ links: links }, { status: 200 });
   } catch (error) {
     return handleError(error);
@@ -72,9 +77,7 @@ export async function PUT(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   try {
     const { path } = await request.json();
-    await prisma.links.delete({
-      where: { path: path },
-    });
+    await deletion(path);
     return NextResponse.json(
       {
         message: 'Successfully deleted link',
