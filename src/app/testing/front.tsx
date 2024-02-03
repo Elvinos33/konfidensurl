@@ -21,7 +21,7 @@ export default function Front({ users }: { users: any }) {
 
   // login returnerer to ting: user (object med type User) og token (string)
   async function loginUser(
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: React.FormEvent<HTMLFormElement>,
     username: string,
     password: string,
   ) {
@@ -31,7 +31,7 @@ export default function Front({ users }: { users: any }) {
   }
 
   async function registerUser(
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: React.FormEvent<HTMLFormElement>,
     username: string,
     password: string,
   ) {
