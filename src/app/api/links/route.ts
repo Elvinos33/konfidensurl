@@ -16,7 +16,7 @@ function handleError(error: any) {
 export async function GET() {
   try {
     const links = await prisma.links.findMany();
-    await links.map(
+    links.map(
       (link: Link) =>
         link.expires && Date.now() > link.expires && deletion(link.path),
     );

@@ -80,9 +80,10 @@ export async function getAllLinks() {
 // henter en link basert på path som den får som parameter
 // sjekker også om linken har utløpt, og om den har det slette den linken
 export async function getLink(path: string) {
+  const parsedPath = path.replaceAll('%20', ' ');
   const link: Link = await prisma.links.findUnique({
     where: {
-      path: path,
+      path: parsedPath,
     },
   });
 
