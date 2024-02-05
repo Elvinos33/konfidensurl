@@ -45,6 +45,12 @@ export async function updateLink({ url, path, expires }: Link) {
   return await res.json();
 }
 
+export async function deletion(path: string) {
+  await prisma.links.delete({
+    where: { path: path },
+  });
+}
+
 // sletter linken med path-en den får som param
 export async function deleteLink(path: string) {
   const res = await fetch('/api/links', {
@@ -74,16 +80,15 @@ export async function getAllLinks() {
 // henter en link basert på path som den får som parameter
 // sjekker også om linken har utløpt, og om den har det slette den linken
 export async function getLink(path: string) {
+  const parsedPath = path.replaceAll('%20', ' ');
   const link: Link = await prisma.links.findUnique({
     where: {
-      path: path,
+      path: parsedPath,
     },
   });
 
   if (link && link.expires && Date.now() > link.expires) {
-    await prisma.links.delete({
-      where: { path: path },
-    });
+    await deletion(path);
     return null;
   }
 
