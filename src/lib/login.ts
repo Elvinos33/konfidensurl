@@ -63,7 +63,7 @@ export async function validateUser(token: string | undefined) {
     return { message: 'No token found', token: null };
   }
   try {
-    const decoded: Token = await jwt.verify(token, process.env.JWT_SECRET);
+    const decoded: Token = jwt.verify(token, process.env.JWT_SECRET);
     return { message: 'Validated token, access granted >:)', token: decoded };
   } catch (error) {
     return { message: 'Invalid token', token: null };
