@@ -5,7 +5,15 @@ import { useEffect, useState } from "react";
 
 export default function UrlAdmin() {
   const [links, setLinks] = useState({
-    links: [{ id: 0, path: "Loading...", expires: null }],
+    links: [
+      {
+        id: 0,
+        path: "Loading...",
+        expires: null,
+        clicks: 0,
+        url: "Loading...",
+      },
+    ],
   });
   useEffect(() => {
     getAllLinks().then((response) => setLinks(response));
