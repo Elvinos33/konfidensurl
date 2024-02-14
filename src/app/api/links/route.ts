@@ -49,6 +49,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     return handleError(error);
   }
+}
 
 // update link
 export async function PUT(request: NextRequest) {
