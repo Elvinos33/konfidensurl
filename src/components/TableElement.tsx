@@ -2,10 +2,11 @@ import { format } from "date-fns";
 import useDrawer from "@/hooks/useDrawer";
 import { Icon } from "@iconify/react";
 import { useState } from "react";
+import { updateLink } from "@/lib/links";
 
 type ElementProps = {
   path: string;
-  expires: Date | null;
+  expires: Date | number | null;
   clicks: number;
   url: string;
 };
@@ -18,9 +19,23 @@ export default function TableElement({
 }: ElementProps) {
   const { isOpen, toggleDrawer } = useDrawer(false);
   const [unlockedInput, setUnlockedInput] = useState(false);
+  const [urlData, setUrlData] = useState({
+    path: path,
+    url: url,
+    expires: expires,
+  });
 
   const expiresFormat =
-    expires !== null ? format(expires, "d/MM/yyyy, kk:mm") : null;
+    expires !== null ? format(expires, "d/MM/yyyy, kk:mm") : undefined;
+
+  function handleSave() {
+    if (unlockedInput) {
+      updateLink(urlData);
+      setUnlockedInput(false);
+    } else {
+      setUnlockedInput(true);
+    }
+  }
 
   return (
     <>
@@ -40,8 +55,8 @@ export default function TableElement({
         </button>
       </div>
       {isOpen && (
-        <div className="flex flex-col items-start border border-t-0 p-2 border-neutral-200 rounded-b-md">
-          <div className="grid grid-cols-1 md:grid-cols-2 mx-1 fade-down w-full">
+        <div className="flex flex-col items-start border border-t-transparent mx-1 p-2 border-neutral-200 rounded-b-md">
+          <div className="grid grid-cols-1 md:grid-cols-2 fade-down w-full">
             <div>
               <label>Path</label>
               <div className="p-2 flex items-center gap-4 border border-neutral-200 w-fit rounded-md">
@@ -49,7 +64,11 @@ export default function TableElement({
                   disabled={!unlockedInput}
                   className="p-2"
                   type="text"
-                  value={`/${path}`}
+                  value={urlData.path}
+                  onChange={(e) => {
+                    setUrlData({ ...urlData, path: e.target.value });
+                    console.log(urlData);
+                  }}
                 />
               </div>
             </div>
@@ -59,8 +78,11 @@ export default function TableElement({
                 <input
                   disabled={!unlockedInput}
                   className="p-2"
-                  type="text"
-                  value={url}
+                  type="url"
+                  value={urlData.url}
+                  onChange={(e) => {
+                    setUrlData({ ...urlData, url: e.target.value });
+                  }}
                 />
               </div>
             </div>
@@ -76,19 +98,19 @@ export default function TableElement({
               </div>
             </div>
           </div>
-          <div className="flex ">
+          <div className="flex gap-2">
             {unlockedInput && (
               <button
                 onClick={() => setUnlockedInput(false)}
-                className="flex items-center gap-2 p-2 bg-konfidens-darkGreen text-white m-2 mt-4 ml-2 rounded-md"
+                className="flex items-center gap-2 p-2 transition hover:scale-105 bg-konfidens-darkGreen text-white mt-4 rounded-md"
               >
                 <p>Cancel</p>
                 <Icon icon={"mdi:cancel"} />
               </button>
             )}
             <button
-              onClick={() => setUnlockedInput(!unlockedInput)}
-              className="flex items-center gap-2 p-2 bg-konfidens-darkGreen text-white m-2 mt-4 ml-2 rounded-md"
+              onClick={handleSave}
+              className="flex items-center gap-2 transition hover:scale-105 p-2 bg-konfidens-darkGreen text-white mt-4 rounded-md"
             >
               <p>{unlockedInput ? "Save" : "Edit"}</p>
               <Icon icon={`${unlockedInput ? "mdi:floppy" : "mdi:pencil"}`} />
