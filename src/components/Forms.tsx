@@ -38,7 +38,6 @@ export function InternalURLForm({ path, setFormData }: FormProps) {
       </h1>
       <div className="w-full flex flex-col gap-4 items-center justify-center h-10">
         <input
-          required
           value={path}
           onChange={(e) => setFormData({ path: e.target.value })}
           className="w-full h-full outline outline-1 outline-neutral-300 transition-all ease-linear duration-[100ms] hover:shadow-sm hover:outline-neutral-600 focus:outline-black focus:outline-2 rounded-md px-2"

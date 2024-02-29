@@ -17,11 +17,7 @@ export default function TableElement({
   url,
 }: ElementProps) {
   const { isOpen, toggleDrawer } = useDrawer(false);
-  const [unlockedInput, setUnlockedInput] = useState({
-    path: true,
-    redirect: true,
-    expires: true,
-  });
+  const [unlockedInput, setUnlockedInput] = useState(false);
 
   const expiresFormat =
     expires !== null ? format(expires, "d/MM/yyyy, kk:mm") : null;
@@ -33,73 +29,70 @@ export default function TableElement({
         <p className="flex-1 font-semibold text-[10px] md:text-[14px]">
           {expiresFormat}
         </p>
+        <p className="text-sm">Clicks:</p>
+        <p className="text-sm font-bold ml-1">{clicks}</p>
         <button
           onClick={toggleDrawer}
           title="Open Drawer"
-          className="text-2xl transition hover:bg-neutral-200 aspect-square rounded-md p-1"
+          className="flex items-center ml-2 gap-2 text-2xl transition hover:bg-neutral-200 aspect-square rounded-md p-1"
         >
           <p className="w-[30px] h-[30px]">{isOpen ? "-" : "+"}</p>
         </button>
       </div>
       {isOpen && (
-        <div className="grid grid-cols-1 md:grid-cols-2 border border-t-0 border-neutral-200 rounded-b-md p-2 mx-1 fade-down">
-          <div>
-            <label>Path</label>
-            <div className="p-2 flex items-center gap-4 border border-neutral-200 w-fit rounded-md">
-              <input
-                autoFocus
-                disabled={unlockedInput.path}
-                className="p-2"
-                type="text"
-                value={`/${path}`}
-              />
-              <button
-                onClick={() => setUnlockedInput({ path: !unlockedInput.path })}
-                className="transition hover:bg-neutral-200 p-1 rounded-md"
-              >
-                <Icon icon={"mdi:pencil"} />
-              </button>
+        <div className="flex flex-col items-start border border-t-0 p-2 border-neutral-200 rounded-b-md">
+          <div className="grid grid-cols-1 md:grid-cols-2 mx-1 fade-down w-full">
+            <div>
+              <label>Path</label>
+              <div className="p-2 flex items-center gap-4 border border-neutral-200 w-fit rounded-md">
+                <input
+                  disabled={!unlockedInput}
+                  className="p-2"
+                  type="text"
+                  value={`/${path}`}
+                />
+              </div>
+            </div>
+            <div>
+              <label>Redirect</label>
+              <div className="p-2 flex items-center gap-4 border border-neutral-200 w-fit rounded-md">
+                <input
+                  disabled={!unlockedInput}
+                  className="p-2"
+                  type="text"
+                  value={url}
+                />
+              </div>
+            </div>
+            <div>
+              <label>Expires</label>
+              <div className="p-2 flex items-center gap-4 border border-neutral-200 w-fit rounded-md">
+                <input
+                  className="p-2"
+                  type="date"
+                  disabled={!unlockedInput}
+                  value={expiresFormat || ""}
+                />
+              </div>
             </div>
           </div>
-          <div>
-            <label>Redirect</label>
-            <div className="p-2 flex items-center gap-4 border border-neutral-200 w-fit rounded-md">
-              <input
-                autoFocus
-                disabled={unlockedInput.redirect}
-                className="p-2"
-                type="text"
-                value={url}
-              />
+          <div className="flex ">
+            {unlockedInput && (
               <button
-                onClick={() =>
-                  setUnlockedInput({ redirect: !unlockedInput.redirect })
-                }
-                className="transition hover:bg-neutral-200 p-1 rounded-md"
+                onClick={() => setUnlockedInput(false)}
+                className="flex items-center gap-2 p-2 bg-konfidens-darkGreen text-white m-2 mt-4 ml-2 rounded-md"
               >
-                <Icon icon={"mdi:pencil"} />
+                <p>Cancel</p>
+                <Icon icon={"mdi:cancel"} />
               </button>
-            </div>
-          </div>
-          <div>
-            <label>Expires</label>
-            <div className="p-2 flex items-center gap-4 border border-neutral-200 w-fit rounded-md">
-              <input
-                autoFocus
-                className="p-2"
-                type="date"
-                disabled={unlockedInput.expires}
-                value={expiresFormat}
-              />
-              <button
-                onClick={() =>
-                  setUnlockedInput({ expires: !unlockedInput.expires })
-                }
-                className="transition hover:bg-neutral-200 p-1 rounded-md"
-              >
-                <Icon icon={"mdi:pencil"} />
-              </button>
-            </div>
+            )}
+            <button
+              onClick={() => setUnlockedInput(!unlockedInput)}
+              className="flex items-center gap-2 p-2 bg-konfidens-darkGreen text-white m-2 mt-4 ml-2 rounded-md"
+            >
+              <p>{unlockedInput ? "Save" : "Edit"}</p>
+              <Icon icon={`${unlockedInput ? "mdi:floppy" : "mdi:pencil"}`} />
+            </button>
           </div>
         </div>
       )}
