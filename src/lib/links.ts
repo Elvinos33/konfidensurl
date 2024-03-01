@@ -6,7 +6,7 @@ export interface Link {
   id: number;
   url: string;
   path: string;
-  expires: number | null;
+  expires: number | undefined;
   clicks?: number;
 }
 
@@ -47,21 +47,21 @@ export async function updateLink({ id, url, path, expires }: Link) {
   return await res.json();
 }
 
-export async function deletion(path: string) {
+export async function deletion(id: number) {
   await prisma.links.delete({
-    where: { path: path },
+    where: { id: id },
   });
 }
 
 // sletter linken med path-en den får som param
-export async function deleteLink(path: string) {
+export async function deleteLink(id: number) {
   const res = await fetch('/api/links', {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      path: path,
+      id: id,
     }),
   });
 
@@ -87,10 +87,13 @@ export async function getLink(path: string) {
     where: {
       path: parsedPath,
     },
+    select: {
+      id: true,
+    },
   });
 
   if (link && link.expires && Date.now() > link.expires) {
-    await deletion(path);
+    await deletion(link.id);
     return null;
   }
 
