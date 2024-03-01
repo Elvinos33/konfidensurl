@@ -54,9 +54,10 @@ export async function POST(request: NextRequest) {
 // update link
 export async function PUT(request: NextRequest) {
   try {
-    const { url, path, expires } = await request.json();
+    const { id, url, path, expires } = await request.json();
+
     const link = await prisma.links.update({
-      where: { path: path },
+      where: { id: id },
       data: {
         url: url,
         path: path,
@@ -72,6 +73,7 @@ export async function PUT(request: NextRequest) {
       { status: 200 },
     );
   } catch (error) {
+    console.log(error);
     return handleError(error);
   }
 }
