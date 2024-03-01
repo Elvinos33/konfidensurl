@@ -50,7 +50,7 @@ export default function Front({ users }: { users: any }) {
         {links.map((link) => (
           <div
             key={link.path}
-            className='flex items-center gap-2 bg-red-400 rounded-lg p-1'
+            className='flex items-center gap-2 rounded-lg bg-red-400 p-1'
           >
             <a className='text-blue-700 underline' href={`/${link.path}`}>
               Path: {link.path}
@@ -58,8 +58,8 @@ export default function Front({ users }: { users: any }) {
             - URL: {link.url} - Expires: {link.expires} - Clicks: {link.clicks}
             {/* slett link */}
             <button
-              onClick={() => deleteLink(link.path)}
-              className='border-black border-2 rounded-lg p-1'
+              onClick={() => deleteLink(link.id)}
+              className='rounded-lg border-2 border-black p-1'
             >
               DELETE
             </button>
@@ -70,13 +70,13 @@ export default function Front({ users }: { users: any }) {
       <form onSubmit={(e) => loginUser(e, username, password)}>
         <input
           type='text'
-          className='border-black border-2'
+          className='border-2 border-black'
           onChange={(e) => setUsername(e.target.value)}
           value={username}
         />
         <input
           type='password'
-          className='border-black border-2'
+          className='border-2 border-black'
           onChange={(e) => setPassword(e.target.value)}
           value={password}
         />
@@ -87,13 +87,13 @@ export default function Front({ users }: { users: any }) {
       <form onSubmit={(e) => registerUser(e, username, password)}>
         <input
           type='text'
-          className='border-black border-2'
+          className='border-2 border-black'
           onChange={(e) => setUsername(e.target.value)}
           value={username}
         />
         <input
           type='password'
-          className='border-black border-2'
+          className='border-2 border-black'
           onChange={(e) => setPassword(e.target.value)}
           value={password}
         />
@@ -104,7 +104,7 @@ export default function Front({ users }: { users: any }) {
         {users.map((user: any) => (
           <div
             key={user.id}
-            className='p-2 flex flex-col border-2 border-black rounded-md'
+            className='flex flex-col rounded-md border-2 border-black p-2'
           >
             <span>{user.username}</span>
             <span>{user.password}</span>

@@ -18,7 +18,7 @@ export async function GET() {
     const links = await prisma.links.findMany();
     links.map(
       (link: Link) =>
-        link.expires && Date.now() > link.expires && deletion(link.path),
+        link.expires && Date.now() > link.expires && deletion(link.id),
     );
     return NextResponse.json({ links: links }, { status: 200 });
   } catch (error) {
@@ -81,8 +81,8 @@ export async function PUT(request: NextRequest) {
 // delete link
 export async function DELETE(request: NextRequest) {
   try {
-    const { path } = await request.json();
-    await deletion(path);
+    const { id } = await request.json();
+    await deletion(id);
     return NextResponse.json(
       {
         message: 'Successfully deleted link',
