@@ -2,9 +2,10 @@ import { format } from "date-fns";
 import useDrawer from "@/hooks/useDrawer";
 import { Icon } from "@iconify/react";
 import { useState } from "react";
-import { updateLink } from "@/lib/links";
+import { updateLink, deleteLink } from "@/lib/links";
 
 type ElementProps = {
+  id: number;
   path: string;
   expires: Date | number | null;
   clicks: number;
@@ -12,6 +13,7 @@ type ElementProps = {
 };
 
 export default function TableElement({
+  id,
   path,
   expires,
   clicks,
@@ -20,6 +22,7 @@ export default function TableElement({
   const { isOpen, toggleDrawer } = useDrawer(false);
   const [unlockedInput, setUnlockedInput] = useState(false);
   const [urlData, setUrlData] = useState({
+    id: id,
     path: path,
     url: url,
     expires: expires,
@@ -98,22 +101,40 @@ export default function TableElement({
               </div>
             </div>
           </div>
-          <div className="flex gap-2">
-            {unlockedInput && (
-              <button
-                onClick={() => setUnlockedInput(false)}
-                className="flex items-center gap-2 p-2 transition hover:scale-105 bg-konfidens-darkGreen text-white mt-4 rounded-md"
-              >
-                <p>Cancel</p>
-                <Icon icon={"mdi:cancel"} />
-              </button>
-            )}
+          <div className="flex justify-between w-full gap-2">
+            <div className="flex gap-2">
+              {unlockedInput && (
+                <button
+                  onClick={() => setUnlockedInput(false)}
+                  className="flex items-center gap-2 p-2 transition hover:scale-105 bg-konfidens-darkGreen text-white mt-4 rounded-md"
+                >
+                  <p>Cancel</p>
+                  <Icon icon={"mdi:cancel"} />
+                </button>
+              )}
+              {(!unlockedInput ||
+                (unlockedInput &&
+                  (urlData.id !== id ||
+                    urlData.path !== path ||
+                    urlData.url !== url ||
+                    urlData.expires !== expires))) && (
+                <button
+                  onClick={handleSave}
+                  className="flex items-center gap-2 transition hover:scale-105 p-2 bg-konfidens-darkGreen text-white mt-4 rounded-md"
+                >
+                  <p>{!unlockedInput ? "Edit" : "Save"}</p>
+                  <Icon
+                    icon={`${!unlockedInput ? "mdi:pencil" : "mdi:floppy"}`}
+                  />
+                </button>
+              )}
+            </div>
             <button
-              onClick={handleSave}
-              className="flex items-center gap-2 transition hover:scale-105 p-2 bg-konfidens-darkGreen text-white mt-4 rounded-md"
+              onClick={() => deleteLink(id)}
+              className="flex items-center gap-2 p-2 border border-red-600 text-red-600 transition hover:scale-105 hover:bg-red-600 hover:text-white mt-4 rounded-md"
             >
-              <p>{unlockedInput ? "Save" : "Edit"}</p>
-              <Icon icon={`${unlockedInput ? "mdi:floppy" : "mdi:pencil"}`} />
+              <p>Delete</p>
+              <Icon icon={"mdi:trash-can"} />
             </button>
           </div>
         </div>
