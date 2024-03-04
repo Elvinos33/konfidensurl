@@ -89,12 +89,13 @@ export async function getLink(path: string) {
     },
     select: {
       id: true,
+      url: true,
     },
   });
 
   if (link && link.expires && Date.now() > link.expires) {
     await deletion(link.id);
-    return null;
+    return undefined;
   }
 
   return link;
