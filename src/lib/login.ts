@@ -18,8 +18,8 @@ export interface Token {
 // lager ny bruker
 // hasher passord
 export async function register(username: string, password: string) {
-  const res = await fetch("api/register", {
-    method: "POST",
+  const res = await fetch('/api/register', {
+    method: 'POST',
     headers: {
       "Content-Type": "application/json",
     },
@@ -34,8 +34,8 @@ export async function register(username: string, password: string) {
 
 // logger in bruker
 export async function login(username: string, password: string) {
-  const res = await fetch("api/login", {
-    method: "POST",
+  const res = await fetch('/api/login', {
+    method: 'POST',
     headers: {
       "Content-Type": "application/json",
     },
@@ -63,8 +63,8 @@ export async function validateUser(token: string | undefined) {
     return { message: "No token found", token: null };
   }
   try {
-    const decoded: Token = jwt.verify(token, process.env.JWT_SECRET);
-    return { message: "Validated token, access granted >:)", token: decoded };
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    return { message: 'Validated token, access granted >:)', token: decoded };
   } catch (error) {
     return { message: "Invalid token", token: null };
   }
