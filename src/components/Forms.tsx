@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { login } from "@/lib/login";
 
 type UrlData = {
   url: string;
@@ -99,5 +100,55 @@ export function TimeForm({ setFormData }: FormProps) {
         />
       </div>
     </div>
+  );
+}
+
+export function LoginForm() {
+  const [loginData, setLoginData] = useState({ username: "", password: "" });
+
+  return (
+    <form
+      className="flex flex-col gap-4 border border-neutral-300 p-4 rounded-md bg-white"
+      onSubmit={(e) => {
+        e.preventDefault();
+        login(loginData.username, loginData.password);
+      }}
+    >
+      <h2 className="w-full text-center text-xl font-semibold">
+        Log in as Admin
+      </h2>
+      <div>
+        <label htmlFor="" className="text-sm mb-1">
+          Username
+        </label>
+        <input
+          type="text"
+          onChange={(e) =>
+            setLoginData({ ...loginData, username: e.target.value })
+          }
+          placeholder="Username..."
+          className="w-full h-full outline outline-1 outline-neutral-300 transition-all ease-linear duration-[100ms] hover:shadow-sm hover:outline-neutral-600 focus:outline-black focus:outline-2 rounded-md p-2"
+        />{" "}
+      </div>
+      <div>
+        <label htmlFor="" className="text-sm bb-1">
+          Password
+        </label>
+        <input
+          type="password"
+          onChange={(e) =>
+            setLoginData({ ...loginData, password: e.target.value })
+          }
+          placeholder="Password..."
+          className="w-full h-full outline outline-1 outline-neutral-300 transition-all ease-linear duration-[100ms] hover:shadow-sm hover:outline-neutral-600 focus:outline-black focus:outline-2 rounded-md p-2"
+        />
+      </div>
+      <button
+        type="submit"
+        className="bg-konfidens-darkGreen text-white p-2 rounded-md transition hover:scale-105 hover:brightness-95"
+      >
+        Log in
+      </button>
+    </form>
   );
 }
