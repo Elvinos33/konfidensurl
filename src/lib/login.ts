@@ -1,6 +1,6 @@
 ////////////////////////////// IMPORTS //////////////////////////////
-import prisma from './prisma';
-import jwt from 'jsonwebtoken';
+import prisma from "./prisma";
+import jwt from "jsonwebtoken";
 
 ////////////////////////////// TYPES //////////////////////////////
 export interface User {
@@ -18,10 +18,10 @@ export interface Token {
 // lager ny bruker
 // hasher passord
 export async function register(username: string, password: string) {
-  const res = await fetch('/api/register', {
-    method: 'POST',
+  const res = await fetch("/api/register", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       username: username,
@@ -34,10 +34,10 @@ export async function register(username: string, password: string) {
 
 // logger in bruker
 export async function login(username: string, password: string) {
-  const res = await fetch('/api/login', {
-    method: 'POST',
+  const res = await fetch("/api/login", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       username: username,
@@ -60,12 +60,16 @@ export async function getAllUsers() {
 // BARE KALL PÅ DENNE FUNKSJONEN SERVERSIDE!!!
 export async function validateUser(token: string | undefined) {
   if (!token) {
-    return { message: 'No token found', token: null };
+    return { message: "No token found", token: null, valid: false };
   }
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    return { message: 'Validated token, access granted >:)', token: decoded };
+    return {
+      message: "Validated token, access granted >:)",
+      token: decoded,
+      valid: true,
+    };
   } catch (error) {
-    return { message: 'Invalid token', token: null };
+    return { message: "Invalid token", token: null, valid: false };
   }
 }
