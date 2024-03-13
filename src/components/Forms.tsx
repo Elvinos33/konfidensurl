@@ -1,10 +1,17 @@
 import { useState } from "react";
 import { login } from "@/lib/login";
+import { useRouter } from "next/navigation";
 
 type UrlData = {
   url: string;
   path: string;
   expires: number | null;
+};
+
+type LoginResponse = {
+  status: number;
+  token: string;
+  user: string;
 };
 
 type FormProps = UrlData & {
@@ -105,13 +112,26 @@ export function TimeForm({ setFormData }: FormProps) {
 
 export function LoginForm() {
   const [loginData, setLoginData] = useState({ username: "", password: "" });
+  const router = useRouter();
+
+  async function handleLogin() {
+    console.log("Logging in...");
+    const loginResponse: LoginResponse = await login(
+      loginData.username,
+      loginData.password,
+    );
+    console.log(loginResponse);
+    if (loginResponse.token) {
+      router.push("/url/admin");
+    }
+  }
 
   return (
     <form
       className="flex flex-col gap-4 border border-neutral-300 p-4 rounded-md bg-white"
       onSubmit={(e) => {
         e.preventDefault();
-        login(loginData.username, loginData.password);
+        handleLogin();
       }}
     >
       <h2 className="w-full text-center text-xl font-semibold">
