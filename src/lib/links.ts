@@ -6,7 +6,7 @@ export interface Link {
   id: number;
   url: string;
   path: string;
-  expires: number | undefined;
+  expires: Date | undefined;
   clicks?: number;
 }
 
@@ -93,7 +93,7 @@ export async function getLink(path: string) {
     },
   });
 
-  if (link && link.expires && Date.now() > link.expires) {
+  if (link && link.expires && new Date() > link.expires) {
     await deletion(link.id);
     return undefined;
   }
