@@ -18,7 +18,7 @@ export async function GET() {
     const links = await prisma.links.findMany();
     links.map(
       (link: Link) =>
-        link.expires && Date.now() > link.expires && deletion(link.id),
+        link.expires && new Date() > link.expires && deletion(link.id),
     );
     return NextResponse.json({ links: links }, { status: 200 });
   } catch (error) {
