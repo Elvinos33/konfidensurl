@@ -3,17 +3,18 @@ import { ExternalURLForm, InternalURLForm, TimeForm } from "@/components/Forms";
 import { useMultistep } from "@/hooks/useMultistep";
 import { FormEvent, useState } from "react";
 import { newLink } from "@/lib/links";
+import Finish from "@/components/Finish";
 
 type FormData = {
   url: string;
   path: string;
-  expires: number | null;
+  expires: Date | undefined;
 };
 
 const INITIAL_FORM_DATA: FormData = {
   url: "",
   path: "",
-  expires: null,
+  expires: undefined,
 };
 
 export default function CreateLink() {
@@ -24,17 +25,22 @@ export default function CreateLink() {
     });
   }
 
-  const { step, nextStep, backStep, isLastStep, isFirstStep } = useMultistep([
-    <ExternalURLForm {...formData} setFormData={updateFormData} />,
-    <InternalURLForm {...formData} setFormData={updateFormData} />,
-    <TimeForm {...formData} setFormData={updateFormData} />,
-  ]);
+  const { step, nextStep, backStep, isFinishStep, isLastStep, isFirstStep } =
+    useMultistep([
+      <ExternalURLForm {...formData} setFormData={updateFormData} />,
+      <InternalURLForm {...formData} setFormData={updateFormData} />,
+      <TimeForm {...formData} setFormData={updateFormData} />,
+      <Finish url={formData.path} />,
+    ]);
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
-    if (!isLastStep) return nextStep();
+    if (!isFinishStep) return nextStep();
     const response = await newLink({ ...formData });
     console.log(response);
+    if (response.status === 200) {
+      return nextStep();
+    }
   }
 
   return (
@@ -48,23 +54,25 @@ export default function CreateLink() {
           Shorten your URL.
         </h1>
         {step}
-        <div className="w-4/5 md:w-3/5 lg:w-2/5 flex justify-between gap-5 animate-fade-up">
-          {!isFirstStep && (
+        {!isLastStep && (
+          <div className="w-4/5 md:w-3/5 lg:w-2/5 flex justify-between gap-5 animate-fade-up">
+            {!isFirstStep && (
+              <button
+                type="button"
+                onClick={backStep}
+                className="bg-konfidens-darkGreen text-konfidens-white flex-1 py-2 rounded-md transition duration-[400ms] hover:brightness-75"
+              >
+                Back
+              </button>
+            )}
             <button
-              type="button"
-              onClick={backStep}
+              type="submit"
               className="bg-konfidens-darkGreen text-konfidens-white flex-1 py-2 rounded-md transition duration-[400ms] hover:brightness-75"
             >
-              Back
+              {isFinishStep ? "Create" : "Next"}
             </button>
-          )}
-          <button
-            type="submit"
-            className="bg-konfidens-darkGreen text-konfidens-white flex-1 py-2 rounded-md transition duration-[400ms] hover:brightness-75"
-          >
-            {isLastStep ? "Create" : "Next"}
-          </button>
-        </div>
+          </div>
+        )}
       </form>
     </main>
   );

@@ -1,11 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
-import { Link, deletion } from '@/lib/links';
+import { NextRequest, NextResponse } from "next/server";
+import prisma from "@/lib/prisma";
+import { Link, deletion } from "@/lib/links";
 
 function handleError(error: any) {
-  if (error.code === 'P2002') {
+  if (error.code === "P2002") {
     return NextResponse.json(
-      { message: 'Path already exists' },
+      { message: "Path already exists" },
       { status: 400 },
     );
   }
@@ -30,20 +30,17 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const { url, path, expires } = await request.json();
-    let expireDate = expires;
-    if (expires) {
-      expireDate = new Date(Date.now() + expires);
-    }
+
     const link = await prisma.links.create({
       data: {
         url: url,
         path: path,
-        expires: expireDate,
+        expires: expires,
       },
     });
 
     return NextResponse.json(
-      { link: link, message: 'Successfully created new link' },
+      { link: link, message: "Successfully created new link", status: 200 },
       { status: 200 },
     );
   } catch (error) {
@@ -68,7 +65,7 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json(
       {
         link: link,
-        message: 'Successfully updated link',
+        message: "Successfully updated link",
       },
       { status: 200 },
     );
@@ -85,7 +82,7 @@ export async function DELETE(request: NextRequest) {
     await deletion(id);
     return NextResponse.json(
       {
-        message: 'Successfully deleted link',
+        message: "Successfully deleted link",
       },
       { status: 200 },
     );

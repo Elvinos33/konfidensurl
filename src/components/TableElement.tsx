@@ -7,7 +7,7 @@ import { updateLink, deleteLink } from "@/lib/links";
 type ElementProps = {
   id: number;
   path: string;
-  expires: Date | number | null;
+  expires: Date | undefined;
   clicks: number;
   url: string;
 };
@@ -28,8 +28,7 @@ export default function TableElement({
     expires: expires,
   });
 
-  const expiresFormat =
-    expires !== null ? format(expires, "d/MM/yyyy, kk:mm") : undefined;
+  const expiresFormat = expires ? format(expires, "dd/MM/yyyy | HH:mm") : "";
 
   function handleSave() {
     if (unlockedInput) {
@@ -94,9 +93,19 @@ export default function TableElement({
               <div className="p-2 flex items-center gap-4 border border-neutral-200 w-fit rounded-md">
                 <input
                   className="p-2"
-                  type="date"
+                  type="datetime-local"
                   disabled={!unlockedInput}
-                  value={expiresFormat || ""}
+                  onChange={(e) =>
+                    setUrlData({
+                      ...urlData,
+                      expires: new Date(e.target.value),
+                    })
+                  }
+                  value={
+                    urlData.expires
+                      ? format(urlData.expires, "yyyy-MM-dd'T'HH:mm")
+                      : ""
+                  }
                 />
               </div>
             </div>
@@ -105,7 +114,10 @@ export default function TableElement({
             <div className="flex gap-2">
               {unlockedInput && (
                 <button
-                  onClick={() => setUnlockedInput(false)}
+                  onClick={() => {
+                    setUnlockedInput(false);
+                    setUrlData({ id, path, url, expires });
+                  }}
                   className="flex items-center gap-2 p-2 transition hover:scale-105 bg-konfidens-darkGreen text-white mt-4 rounded-md"
                 >
                   <p>Cancel</p>
