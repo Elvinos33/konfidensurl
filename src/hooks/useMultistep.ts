@@ -26,6 +26,7 @@ export function useMultistep(steps: ReactElement[]) {
     step: steps[currentStep],
     steps,
     isFirstStep: currentStep === 0,
+    isFinishStep: currentStep === steps.length - 2,
     isLastStep: currentStep === steps.length - 1,
     gotoStep,
     nextStep,
