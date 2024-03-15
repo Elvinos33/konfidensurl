@@ -3,9 +3,10 @@ import prisma from './prisma';
 
 ////////////////////////////// TYPES //////////////////////////////
 export interface Link {
+  id: number;
   url: string;
   path: string;
-  expires: number | null;
+  expires: Date | undefined;
   clicks?: number;
 }
 
@@ -29,13 +30,14 @@ export async function newLink({ url, path, expires }: Link) {
 
 // får url, path og expires som paramater og oppdaterer linken til path-en som er gitt.
 // alle parameterene må være med, ellers blir de satt til default valuene sine
-export async function updateLink({ url, path, expires }: Link) {
+export async function updateLink({ id, url, path, expires }: Link) {
   const res = await fetch('/api/links', {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
+      id: id,
       url: url,
       path: path,
       expires: expires,
@@ -45,15 +47,21 @@ export async function updateLink({ url, path, expires }: Link) {
   return await res.json();
 }
 
+export async function deletion(id: number) {
+  await prisma.links.delete({
+    where: { id: id },
+  });
+}
+
 // sletter linken med path-en den får som param
-export async function deleteLink(path: string) {
+export async function deleteLink(id: number) {
   const res = await fetch('/api/links', {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      path: path,
+      id: id,
     }),
   });
 
@@ -74,17 +82,20 @@ export async function getAllLinks() {
 // henter en link basert på path som den får som parameter
 // sjekker også om linken har utløpt, og om den har det slette den linken
 export async function getLink(path: string) {
+  const parsedPath = path.replaceAll('%20', ' ');
   const link: Link = await prisma.links.findUnique({
     where: {
-      path: path,
+      path: parsedPath,
+    },
+    select: {
+      id: true,
+      url: true,
     },
   });
 
-  if (link && link.expires && Date.now() > link.expires) {
-    await prisma.links.delete({
-      where: { path: path },
-    });
-    return null;
+  if (link && link.expires && new Date() > link.expires) {
+    await deletion(link.id);
+    return undefined;
   }
 
   return link;

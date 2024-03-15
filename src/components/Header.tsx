@@ -17,7 +17,13 @@ export default function Header() {
         <div className="flex gap-5 items-center">
           <Link
             className="px-4 py-3 text-[12px] md:text-[14px] rounded-md text-konfidens-white font-semibold bg-konfidens-darkGreen transition duration-[400ms] hover:brightness-90 hover:scale-105"
-            href={"/url-admin"}
+            href={"/url/admin"}
+          >
+            Create URL
+          </Link>
+          <Link
+            className="px-4 py-3 text-[12px] md:text-[14px] rounded-md text-konfidens-white font-semibold bg-konfidens-darkGreen transition duration-[400ms] hover:brightness-90 hover:scale-105"
+            href={"/url/admin/list"}
           >
             All URLs
           </Link>
