@@ -56,12 +56,18 @@ export async function PUT(request: NextRequest) {
   try {
     const { id, url, path, expires } = await request.json();
 
+    let checkedExpires = expires;
+
+    if (!expires) {
+      checkedExpires = null;
+    }
+
     const link = await prisma.links.update({
       where: { id: id },
       data: {
-        url: url,
-        path: path,
-        expires: expires,
+        url,
+        path,
+        expires: checkedExpires,
       },
     });
 
