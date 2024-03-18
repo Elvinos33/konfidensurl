@@ -98,7 +98,9 @@ export default function TableElement({
                   onChange={(e) =>
                     setUrlData({
                       ...urlData,
-                      expires: new Date(e.target.value),
+                      expires: e.target.value
+                        ? new Date(e.target.value)
+                        : undefined,
                     })
                   }
                   value={
