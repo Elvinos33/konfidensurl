@@ -41,9 +41,12 @@ export async function POST(request: NextRequest) {
         },
       });
 
+      let secret = '';
+      if (process.env.JWT_SECRET) secret = process.env.JWT_SECRET;
+
       const token = jwt.sign(
         { userId: user.id, username: user.username },
-        process.env.JWT_SECRET,
+        secret,
         { expiresIn: '1h' },
       );
 

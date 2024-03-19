@@ -98,7 +98,9 @@ export default function TableElement({
                   onChange={(e) =>
                     setUrlData({
                       ...urlData,
-                      expires: new Date(e.target.value),
+                      expires: e.target.value
+                        ? new Date(e.target.value)
+                        : undefined,
                     })
                   }
                   value={
@@ -116,9 +118,15 @@ export default function TableElement({
                 <button
                   onClick={() => {
                     setUnlockedInput(false);
-                    setUrlData({ id, path, url, expires });
+                    setUrlData({
+                      id,
+                      path,
+                      url,
+                      expires,
+                    });
+                    console.log(urlData);
                   }}
-                  className="flex items-center gap-2 p-2 transition hover:scale-105 bg-konfidens-darkGreen text-white mt-4 rounded-md"
+                  className="flex items-center gap-2 p-2 transition text-sm hover:scale-105 bg-konfidens-darkGreen text-white mt-4 rounded-md"
                 >
                   <p>Cancel</p>
                   <Icon icon={"mdi:cancel"} />
@@ -132,7 +140,7 @@ export default function TableElement({
                     urlData.expires !== expires))) && (
                 <button
                   onClick={handleSave}
-                  className="flex items-center gap-2 transition hover:scale-105 p-2 bg-konfidens-darkGreen text-white mt-4 rounded-md"
+                  className="flex items-center gap-2 transition text-sm hover:scale-105 p-2 bg-konfidens-darkGreen text-white mt-4 rounded-md"
                 >
                   <p>{!unlockedInput ? "Edit" : "Save"}</p>
                   <Icon
@@ -143,7 +151,7 @@ export default function TableElement({
             </div>
             <button
               onClick={() => deleteLink(id)}
-              className="flex items-center gap-2 p-2 border border-red-600 text-red-600 transition hover:scale-105 hover:bg-red-600 hover:text-white mt-4 rounded-md"
+              className="flex items-center gap-2 sm:text-sm p-2 border border-red-600 text-red-600 transition hover:scale-105 hover:bg-red-600 hover:text-white mt-4 rounded-md"
             >
               <p>Delete</p>
               <Icon icon={"mdi:trash-can"} />

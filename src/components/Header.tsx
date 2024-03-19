@@ -9,20 +9,20 @@ export default function Header() {
           className="flex items-center transition duration-[400ms] hover:scale-105"
         >
           <img
-            className="w-[175px] md:w-[200px]"
+            className="w-[150px] md:w-[200px]"
             src="https://assets-global.website-files.com/631096f39cd600365d745f58/634577ae7f1f31308edfbe77_Konfidens%20logo%20dark%20green.png"
             alt="Konfidens Logo"
           />
         </Link>
-        <div className="flex gap-5 items-center">
+        <div className="flex gap-2 md:gap-5 items-center">
           <Link
-            className="px-4 py-3 text-[12px] md:text-[14px] rounded-md text-konfidens-white font-semibold bg-konfidens-darkGreen transition duration-[400ms] hover:brightness-90 hover:scale-105"
+            className="px-3 py-2 md:px-4 md:py-3 text-[11px] md:text-[14px] rounded-md text-konfidens-white font-semibold bg-konfidens-darkGreen transition duration-[400ms] hover:brightness-90 hover:scale-105"
             href={"/url/admin"}
           >
             Create URL
           </Link>
           <Link
-            className="px-4 py-3 text-[12px] md:text-[14px] rounded-md text-konfidens-white font-semibold bg-konfidens-darkGreen transition duration-[400ms] hover:brightness-90 hover:scale-105"
+            className="px-3 py-2 md:px-4 md:py-3 text-[11px] md:text-[14px] rounded-md text-konfidens-white font-semibold bg-konfidens-darkGreen transition duration-[400ms] hover:brightness-90 hover:scale-105"
             href={"/url/admin/list"}
           >
             All URLs
