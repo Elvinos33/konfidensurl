@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { Link, deletion } from '@/lib/links';
+import { headers } from 'next/headers';
+import { validateUser } from '@/lib/login';
 
 function handleError(error: any) {
   if (error.code === 'P2002') {
@@ -31,6 +33,15 @@ export async function GET() {
 
 // new link
 export async function POST(request: NextRequest) {
+  const authorized = await checkAuthorization();
+  if (!authorized)
+    return NextResponse.json(
+      {
+        message: 'Unauthorized token or missing token in Authorization header',
+      },
+      { status: 401 },
+    );
+
   try {
     const { url, path, expires } = await request.json();
 
@@ -53,6 +64,15 @@ export async function POST(request: NextRequest) {
 
 // update link
 export async function PUT(request: NextRequest) {
+  const authorized = await checkAuthorization();
+  if (!authorized)
+    return NextResponse.json(
+      {
+        message: 'Unauthorized token or missing token in Authorization header',
+      },
+      { status: 401 },
+    );
+
   try {
     const { id, url, path, expires } = await request.json();
 
@@ -86,6 +106,15 @@ export async function PUT(request: NextRequest) {
 
 // delete link
 export async function DELETE(request: NextRequest) {
+  const authorized = await checkAuthorization();
+  if (!authorized)
+    return NextResponse.json(
+      {
+        message: 'Unauthorized token or missing token in Authorization header',
+      },
+      { status: 401 },
+    );
+
   try {
     const { id } = await request.json();
     await deletion(id);
@@ -98,4 +127,19 @@ export async function DELETE(request: NextRequest) {
   } catch (error) {
     return handleError(error);
   }
+}
+
+// used to validate the user's token on requests
+// getting the token from authorization header
+// maybe better built in way to do this, but this at least works
+export async function checkAuthorization() {
+  const authHeader = headers().get('Authorization');
+  if (!authHeader) return false;
+
+  const token = authHeader.split(' ')[1];
+
+  const validate = await validateUser(token);
+  if (!validate.valid) return false;
+
+  return true;
 }

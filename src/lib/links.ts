@@ -12,10 +12,11 @@ export interface Link {
 
 ////////////////////////////// FUNCTIONS //////////////////////////////
 // lager en ny link med url, path og expires som parametere
-export async function newLink({ url, path, expires }: Link) {
+export async function newLink({ url, path, expires }: Link, token: string) {
   const res = await fetch('/api/links', {
     method: 'POST',
     headers: {
+      Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({

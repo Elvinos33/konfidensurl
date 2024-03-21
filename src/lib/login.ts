@@ -1,4 +1,5 @@
 ////////////////////////////// IMPORTS //////////////////////////////
+import { headers } from 'next/headers';
 import prisma from './prisma';
 import jwt from 'jsonwebtoken';
 
