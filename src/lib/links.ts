@@ -12,10 +12,11 @@ export interface Link {
 
 ////////////////////////////// FUNCTIONS //////////////////////////////
 // lager en ny link med url, path og expires som parametere
-export async function newLink({ url, path, expires }: Link) {
+export async function newLink({ url, path, expires }: Link, token: string) {
   const res = await fetch('/api/links', {
     method: 'POST',
     headers: {
+      Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -30,10 +31,14 @@ export async function newLink({ url, path, expires }: Link) {
 
 // får url, path og expires som paramater og oppdaterer linken til path-en som er gitt.
 // alle parameterene må være med, ellers blir de satt til default valuene sine
-export async function updateLink({ id, url, path, expires }: Link) {
+export async function updateLink(
+  { id, url, path, expires }: Link,
+  token: string,
+) {
   const res = await fetch('/api/links', {
     method: 'PUT',
     headers: {
+      Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -54,10 +59,11 @@ export async function deletion(id: number) {
 }
 
 // sletter linken med path-en den får som param
-export async function deleteLink(id: number) {
+export async function deleteLink(id: number, token: string) {
   const res = await fetch('/api/links', {
     method: 'DELETE',
     headers: {
+      Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
