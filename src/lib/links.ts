@@ -6,7 +6,7 @@ export interface Link {
   id: number;
   url: string;
   path: string;
-  expires: Date | undefined;
+  expires: Date | undefined | null;
   clicks?: number;
 }
 
@@ -83,13 +83,9 @@ export async function getAllLinks() {
 // sjekker også om linken har utløpt, og om den har det slette den linken
 export async function getLink(path: string) {
   const parsedPath = path.replaceAll('%20', ' ');
-  const link: Link = await prisma.links.findUnique({
+  const link = await prisma.links.findUnique({
     where: {
       path: parsedPath,
-    },
-    select: {
-      id: true,
-      url: true,
     },
   });
 

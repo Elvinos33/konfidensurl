@@ -1,13 +1,13 @@
-import { format } from "date-fns";
-import useDrawer from "@/hooks/useDrawer";
-import { Icon } from "@iconify/react";
-import { useState } from "react";
-import { updateLink, deleteLink } from "@/lib/links";
+import { format } from 'date-fns';
+import useDrawer from '@/hooks/useDrawer';
+import { Icon } from '@iconify/react';
+import { useState } from 'react';
+import { updateLink, deleteLink } from '@/lib/links';
 
 type ElementProps = {
   id: number;
   path: string;
-  expires: Date | undefined;
+  expires: Date | undefined | null;
   clicks: number;
   url: string;
 };
@@ -28,7 +28,7 @@ export default function TableElement({
     expires: expires,
   });
 
-  const expiresFormat = expires ? format(expires, "dd/MM/yyyy | HH:mm") : "";
+  const expiresFormat = expires ? format(expires, 'dd/MM/yyyy | HH:mm') : '';
 
   function handleSave() {
     if (unlockedInput) {
@@ -41,31 +41,31 @@ export default function TableElement({
 
   return (
     <>
-      <div className="p-2 w-full flex items-center border-b border-r-neutral-200">
-        <p className="flex-1 font-semibold">/{path}</p>
-        <p className="flex-1 font-semibold text-[10px] md:text-[14px]">
+      <div className='flex w-full items-center border-b border-r-neutral-200 p-2'>
+        <p className='flex-1 font-semibold'>/{path}</p>
+        <p className='flex-1 text-[10px] font-semibold md:text-[14px]'>
           {expiresFormat}
         </p>
-        <p className="text-sm">Clicks:</p>
-        <p className="text-sm font-bold ml-1">{clicks}</p>
+        <p className='text-sm'>Clicks:</p>
+        <p className='ml-1 text-sm font-bold'>{clicks}</p>
         <button
           onClick={toggleDrawer}
-          title="Open Drawer"
-          className="flex items-center ml-2 gap-2 text-2xl transition hover:bg-neutral-200 aspect-square rounded-md p-1"
+          title='Open Drawer'
+          className='ml-2 flex aspect-square items-center gap-2 rounded-md p-1 text-2xl transition hover:bg-neutral-200'
         >
-          <p className="w-[30px] h-[30px]">{isOpen ? "-" : "+"}</p>
+          <p className='h-[30px] w-[30px]'>{isOpen ? '-' : '+'}</p>
         </button>
       </div>
       {isOpen && (
-        <div className="flex flex-col items-start border border-t-transparent mx-1 p-2 border-neutral-200 rounded-b-md">
-          <div className="grid grid-cols-1 md:grid-cols-2 fade-down w-full">
+        <div className='mx-1 flex flex-col items-start rounded-b-md border border-neutral-200 border-t-transparent p-2'>
+          <div className='fade-down grid w-full grid-cols-1 md:grid-cols-2'>
             <div>
               <label>Path</label>
-              <div className="p-2 flex items-center gap-4 border border-neutral-200 w-fit rounded-md">
+              <div className='flex w-fit items-center gap-4 rounded-md border border-neutral-200 p-2'>
                 <input
                   disabled={!unlockedInput}
-                  className="p-2"
-                  type="text"
+                  className='p-2'
+                  type='text'
                   value={urlData.path}
                   onChange={(e) => {
                     setUrlData({ ...urlData, path: e.target.value });
@@ -76,11 +76,11 @@ export default function TableElement({
             </div>
             <div>
               <label>Redirect</label>
-              <div className="p-2 flex items-center gap-4 border border-neutral-200 w-fit rounded-md">
+              <div className='flex w-fit items-center gap-4 rounded-md border border-neutral-200 p-2'>
                 <input
                   disabled={!unlockedInput}
-                  className="p-2"
-                  type="url"
+                  className='p-2'
+                  type='url'
                   value={urlData.url}
                   onChange={(e) => {
                     setUrlData({ ...urlData, url: e.target.value });
@@ -90,10 +90,10 @@ export default function TableElement({
             </div>
             <div>
               <label>Expires</label>
-              <div className="p-2 flex items-center gap-4 border border-neutral-200 w-fit rounded-md">
+              <div className='flex w-fit items-center gap-4 rounded-md border border-neutral-200 p-2'>
                 <input
-                  className="p-2"
-                  type="datetime-local"
+                  className='p-2'
+                  type='datetime-local'
                   disabled={!unlockedInput}
                   onChange={(e) =>
                     setUrlData({
@@ -106,14 +106,14 @@ export default function TableElement({
                   value={
                     urlData.expires
                       ? format(urlData.expires, "yyyy-MM-dd'T'HH:mm")
-                      : ""
+                      : ''
                   }
                 />
               </div>
             </div>
           </div>
-          <div className="flex justify-between w-full gap-2">
-            <div className="flex gap-2">
+          <div className='flex w-full justify-between gap-2'>
+            <div className='flex gap-2'>
               {unlockedInput && (
                 <button
                   onClick={() => {
@@ -126,10 +126,10 @@ export default function TableElement({
                     });
                     console.log(urlData);
                   }}
-                  className="flex items-center gap-2 p-2 transition text-sm hover:scale-105 bg-konfidens-darkGreen text-white mt-4 rounded-md"
+                  className='bg-konfidens-darkGreen mt-4 flex items-center gap-2 rounded-md p-2 text-sm text-white transition hover:scale-105'
                 >
                   <p>Cancel</p>
-                  <Icon icon={"mdi:cancel"} />
+                  <Icon icon={'mdi:cancel'} />
                 </button>
               )}
               {(!unlockedInput ||
@@ -140,21 +140,21 @@ export default function TableElement({
                     urlData.expires !== expires))) && (
                 <button
                   onClick={handleSave}
-                  className="flex items-center gap-2 transition text-sm hover:scale-105 p-2 bg-konfidens-darkGreen text-white mt-4 rounded-md"
+                  className='bg-konfidens-darkGreen mt-4 flex items-center gap-2 rounded-md p-2 text-sm text-white transition hover:scale-105'
                 >
-                  <p>{!unlockedInput ? "Edit" : "Save"}</p>
+                  <p>{!unlockedInput ? 'Edit' : 'Save'}</p>
                   <Icon
-                    icon={`${!unlockedInput ? "mdi:pencil" : "mdi:floppy"}`}
+                    icon={`${!unlockedInput ? 'mdi:pencil' : 'mdi:floppy'}`}
                   />
                 </button>
               )}
             </div>
             <button
               onClick={() => deleteLink(id)}
-              className="flex items-center gap-2 sm:text-sm p-2 border border-red-600 text-red-600 transition hover:scale-105 hover:bg-red-600 hover:text-white mt-4 rounded-md"
+              className='mt-4 flex items-center gap-2 rounded-md border border-red-600 p-2 text-red-600 transition hover:scale-105 hover:bg-red-600 hover:text-white sm:text-sm'
             >
               <p>Delete</p>
-              <Icon icon={"mdi:trash-can"} />
+              <Icon icon={'mdi:trash-can'} />
             </button>
           </div>
         </div>

@@ -1,8 +1,8 @@
 import Redirect from '@/components/Redirect';
-import { Link, getLink, incrementClicks } from '@/lib/links';
+import { getLink, incrementClicks } from '@/lib/links';
 
 export default async function Home() {
-  const link: Link | undefined = await getLink('');
+  const link = await getLink('');
 
   await incrementClicks('');
   return (
