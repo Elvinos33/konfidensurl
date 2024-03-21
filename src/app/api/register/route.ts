@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json({ user: user }, { status: 200 });
-  } catch (error) {
+  } catch (error: any) {
     if (error.code === 'P2002') {
       return NextResponse.json(
         { message: 'User with that username already exists' },

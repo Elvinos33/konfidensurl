@@ -44,6 +44,15 @@ export async function POST(request: NextRequest) {
       let secret = '';
       if (process.env.JWT_SECRET) secret = process.env.JWT_SECRET;
 
+      if (!user) {
+        return NextResponse.json(
+          {
+            message: 'Did not find a user with that username',
+          },
+          { status: 404 },
+        );
+      }
+
       const token = jwt.sign(
         { userId: user.id, username: user.username },
         secret,
