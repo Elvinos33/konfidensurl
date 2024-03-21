@@ -136,8 +136,12 @@ export async function checkAuthorization() {
   const authHeader = headers().get('Authorization');
   if (!authHeader) return false;
 
-  const token = authHeader.split(' ')[1];
+  const splitAuthHeader = authHeader.split(' ');
 
+  const type = splitAuthHeader[0];
+  if (type !== 'Bearer') return false;
+
+  const token = authHeader.split(' ')[1];
   const validate = await validateUser(token);
   if (!validate.valid) return false;
 
